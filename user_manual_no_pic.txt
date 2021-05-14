@@ -1,0 +1,27 @@
+User Manual:
+Python 3.0 and up
+Install fpdf module via pip install fpdf.
+
+-Main Page-
+* The default timer limit is 30 minutes*
+ 
+Clicking either start button will start the timer. 
+Click the stop button to stop it early and record that time.
+Once the timer hit it timer limit it will play a sound and popup a message to warn user the time has reached. 
+
+
+-Customization-
+Renaming buttons (default: work and slack):
+	To rename a button enter a desired name in the field box and hit save according to the button that you want to change.
+ 
+Changing the timer limit:
+	Clicking any of the button in that bottom line will set the timer limit to that time according to the button name. 
+-Report-
+	Sort:
+		Clicking the sort will added up all the time in the list according to the button. Meaning button 1 will only added in button 1, and button 2 will only add in button 2.
+	Report:
+		Report button is unavailable when first started the program
+		To enable, click the sort button first
+		Report will save the timer list into a pdf file, and pdf file will be named as current date (ex. 2021-04-27)
+		The pdf is located at where you run this program.
+
