@@ -105,8 +105,14 @@ class MainPage(tk.Frame):
         self.slack_label = tk.Label(self, text="Start: ")
         self.slack_label.place(x=150, y=230)
 
-        self.stop_button = tk.Button(self, text="Stop", state=tk.DISABLED, width=10, height=2, command=self.reset)
+        self.stop_button = tk.Button(self, text="Reset", state=tk.DISABLED, width=10, height=2, command=self.reset)
         self.stop_button.place(x=280, y=162)
+
+        self.pause_button = tk.Button(self, text="Pause", width=10, height=2, command=self.stop)
+        self.pause_button.place(x=280, y=224)
+
+        self.resume_button = tk.Button(self, text="Resume", width=10, height=2, command=self.resume)
+        self.resume_button.place(x=280, y=270)
 
         # dummy buttons
         # self.printButton = tk.Button(self, text="test", command=self.update_table)
@@ -199,6 +205,15 @@ class MainPage(tk.Frame):
         """
         global count
         count = 1
+
+    def resume(self):
+        """
+        Resume the timer, use for after pausing
+        :return:
+        """
+        global count
+        count = 0
+        self.timer()
 
     def timer(self):
         """
