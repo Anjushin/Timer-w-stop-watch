@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
-import fpdf
+# removed pdf function
+# import fpdf
 from datetime import date
+
 
 
 class Timer(tk.Tk):
@@ -307,13 +309,13 @@ class MainPage(tk.Frame):
             self.stop_button["state"] = "active"
             self.stop_button["text"] = "Stop"
             self.window_custom["state"] = "disable"
-            self.window_report["state"] = "disable"
+            # self.window_report["state"] = "disable"
         else:
             self.work_button["state"] = "normal"
             self.stop_button["state"] = "disabled"
             self.stop_button["text"] = "Stop"
             self.window_custom["state"] = "active"
-            self.window_report["state"] = "active"
+            # self.window_report["state"] = "active"
 
         # for slack button 2
         if self.slack_button["state"] == "normal":
@@ -389,6 +391,10 @@ class Customization(tk.Frame):
                                      command=lambda: self.time_set_fourty_five_m())
         self.slack_button.grid(row=6, column=2, pady=10, padx=10)
 
+        self.slack_button = tk.Button(self, text=f"20 minutes", width=10, height=2,
+                                     command=lambda: self.time_set_twenty_m())
+        self.slack_button.grid(row=7, column=1, pady=10, padx=10)
+
         self.slack_button = tk.Button(self, text=f"1 hours", width=10, height=2,
                                      command=lambda: self.time_set_one_hour())
         self.slack_button.grid(row=7, column=2, pady=10, padx=10)
@@ -414,6 +420,10 @@ class Customization(tk.Frame):
     def time_set_one_m_5_second(self):
         global time_set
         time_set = "00:01:05"
+
+    def time_set_twenty_m(self):
+        global time_set
+        time_set = "00:20:00"
 
     def time_set_thirty_m(self):
         global time_set
@@ -448,9 +458,15 @@ class ReportPage(tk.Frame):
         self.button_sort = tk.Button(self, text="Sort", command=lambda: self.sort_time_table())
         self.button_sort.grid(row=2, column=0, pady=10, padx=10)
 
-        self.button_report = tk.Button(self, text="Report", command=lambda: self.show_pdf())
+        # pdf function here
+        # uncomment & import/install pdf to use
+        self.button_report = tk.Button(self, text="Report", command=lambda: self.pdf_not_support())
         self.button_report.grid(row=3, column=0, pady=10, padx=10)
-        self.button_report['state'] = 'disabled'
+
+        #self.button_report['state'] = 'disabled'
+
+    def pdf_not_support(self):
+        tk.messagebox.showinfo("Save to pdf", "This function is currently disabled, enable it in code")
 
     def sort_time_table(self):
         """
@@ -545,6 +561,10 @@ class ReportPage(tk.Frame):
         return time_hold_slack
 
     def show_pdf(self):
+        """
+        Save time list to pdf. Disabled by default
+        :return:
+        """
         global listbox
         pdf = fpdf.FPDF(format='letter')
         pdf.add_page()
