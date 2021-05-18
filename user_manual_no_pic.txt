@@ -1,6 +1,6 @@
 User Manual:
 Python 3.0 and up
-Install fpdf module via pip install fpdf.
+*Install fpdf module via pip install fpdf if choose to enable this function*
 
 -Main Page-
 * The default timer limit is 30 minutes*
