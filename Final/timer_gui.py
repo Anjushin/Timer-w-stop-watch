@@ -120,8 +120,8 @@ class MainPage(tk.Frame):
         # self.printButton = tk.Button(self, text="test", command=self.update_table)
         # self.printButton.grid(row=1, column=3, pady=10, padx=10)
         #
-        # self.printButton_2 = tk.Button(self, text="test2", command=self.test_add_time_list)
-        # self.printButton_2.grid(row=1, column=4)
+        self.printButton_2 = tk.Button(self, text="test2", command=self.test_add_time_list)
+        self.printButton_2.grid(row=1, column=4)
 
         # navigate to different window
         self.window_report = tk.Button(self, text="Report Page", command=lambda: controller.show_frame(ReportPage))
@@ -328,10 +328,10 @@ class MainPage(tk.Frame):
             self.stop_button["text"] = "Stop"
 
     def test_add_time_list(self):
-        time_hold_work.append("00:10:00")
-        time_hold_slack.append("01:00:00")
+        time_hold_work.append("00:30:00")
+        #time_hold_slack.append("01:00:00")
         print(time_hold_work)
-        print(time_hold_slack)
+        #print(time_hold_slack)
 
 
 class Customization(tk.Frame):
@@ -514,11 +514,15 @@ class ReportPage(tk.Frame):
                 s_result = str(0) + str(s_result)
             else:
                 s_result = str(s_result)
-            #print(type(s_result))
-            #print(type(s))
-            # print("h", h_result)
-            # print("m", m_result)
-            # print("s", s_result)
+
+            # if more than 60m convert to hour
+            if int(m_result) > 59:
+                m_result = int(m_result)
+                m_result -= 60
+                print(m_result)
+                h_result = int(h_result)
+                h_result += 1
+
         time_hold_work = [str(h_result) + ":" + str(m_result) + ":" + str(s_result)]
         return time_hold_work
 
