@@ -66,7 +66,10 @@ class MainPage(tk.Frame):
         global listbox
         # default 30 minutes
         global time_set
+        global time_set_label
         time_set = "00:30:00"
+        time_set_label = tk.StringVar()
+        time_set_label.set("00:30:00")
         self.button_1 = False
         self.button_2 = False
         custom = {"button_1": "work", "button_2": "slack"}
@@ -87,7 +90,10 @@ class MainPage(tk.Frame):
         # timer label
         self.lb = tk.Label(self, textvariable=self.t, font=("Courier 40 bold"), bg="red")
         self.lb.grid(row=2, column= 1)
-        #self.label = tk.Label(self, text="", font=("Courier 40 bold"))
+
+        # timer limit set label
+        self.label_time_limit = tk.Label(self, textvariable=time_set_label, font=("Arial", 25))
+        self.label_time_limit.grid(row=1, column= 1)
 
         # button 1
         self.work_button = tk.Button(self, text=f"{custom['button_1']}", width=10, height=2,
@@ -138,6 +144,7 @@ class MainPage(tk.Frame):
         time_hold_slack = []
         # used for updating timer table
         listbox = tk.Listbox()
+
 
     def start_button_1(self):
         """
@@ -270,10 +277,9 @@ class MainPage(tk.Frame):
                 # stop the time
                 self.stop()
                 # pop up the message
-                msg = "Take a break!"
-                tk.messagebox.showinfo(title="30 minutes is up", message=msg)
-
-            #print(time_set)
+                # msg = "Take a break!" time_set_label.get()
+                msg = f"Time's up!"
+                tk.messagebox.showinfo(title="Alarm", message=msg)
 
     def b1_correct_label(self):
         """
@@ -361,13 +367,16 @@ class Customization(tk.Frame):
         # self.text_box = tk.Entry(self, bd=5, font=("Times New Roman", 14), width=25)
         # self.text_box.grid(row=7, column=1, pady=10, padx=10)
 
+        self.label_time_limit = tk.Label(self, textvariable=time_set_label, font=("Arial", 25))
+        self.label_time_limit.grid(row=1, column= 1)
+
         self.work_button = tk.Button(self, text=f"Save button 1", width=10, height=2,
                                      command=lambda: self.w_go_to_page_one())
-        self.work_button.grid(row=1, column=1, pady=10, padx=10)
+        self.work_button.grid(row=1, column=2, pady=10, padx=10)
 
         self.slack_button = tk.Button(self, text=f"Save button 2", width=10, height=2,
                                      command=lambda: self.s_go_to_page_one())
-        self.slack_button.grid(row=1, column=2, pady=10, padx=10)
+        self.slack_button.grid(row=2, column=2, pady=10, padx=10)
 
         # instruction labels for name changing
         self.label = tk.Label(self, text="Enter new name to rename the button(s).")
@@ -399,6 +408,7 @@ class Customization(tk.Frame):
                                      command=lambda: self.time_set_one_hour())
         self.slack_button.grid(row=7, column=2, pady=10, padx=10)
 
+
     def w_go_to_page_one(self):
         """
         Store the input from textbox, saving it to button 1, and send user to the main page
@@ -419,23 +429,50 @@ class Customization(tk.Frame):
 
     def time_set_one_m_5_second(self):
         global time_set
-        time_set = "00:01:05"
+        global time_set_label
+        time_set = "00:00:02"
+        # display the correct label for time limit
+        time_set_label.set(time_set)
+
+        self.controller.SomeVar = time_set_label.get()  # save text from entry to some var
+        # self.controller.frames[MainPage].time_correct_label()  # call correct_label function
+        # self.controller.show_frame(MainPage)  # show page one
 
     def time_set_twenty_m(self):
         global time_set
+        global time_set_label
         time_set = "00:20:00"
+        # display the correct label for time limit
+        time_set_label.set(time_set)
+
+        self.controller.SomeVar = time_set_label.get()  # save text from entry to some var
 
     def time_set_thirty_m(self):
         global time_set
+        global time_set_label
         time_set = "00:30:00"
+        # display the correct label for time limit
+        time_set_label.set(time_set)
+
+        self.controller.SomeVar = time_set_label.get()  # save text from entry to some var
 
     def time_set_fourty_five_m(self):
         global time_set
+        global time_set_label
         time_set = "00:45:00"
+        # display the correct label for time limit
+        time_set_label.set(time_set)
+
+        self.controller.SomeVar = time_set_label.get()  # save text from entry to some var
 
     def time_set_one_hour(self):
         global time_set
+        global time_set_label
         time_set = "01:00:00"
+        # display the correct label for time limit
+        time_set_label.set(time_set)
+
+        self.controller.SomeVar = time_set_label.get()  # save text from entry to some var
 
 
 class ReportPage(tk.Frame):
