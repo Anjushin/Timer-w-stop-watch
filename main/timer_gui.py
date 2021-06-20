@@ -116,18 +116,18 @@ class MainPage(tk.Frame):
         self.stop_button = tk.Button(self, text="Reset", state=tk.DISABLED, width=10, height=2, command=self.reset)
         self.stop_button.place(x=280, y=162)
 
-        self.pause_button = tk.Button(self, text="Pause", width=10, height=2, command=self.stop)
+        self.pause_button = tk.Button(self, text="Pause", state=tk.DISABLED, width=10, height=2, command=self.pause)
         self.pause_button.place(x=280, y=224)
 
-        self.resume_button = tk.Button(self, text="Resume", width=10, height=2, command=self.resume)
+        self.resume_button = tk.Button(self, text="Resume", state=tk.DISABLED, width=10, height=2, command=self.resume)
         self.resume_button.place(x=280, y=270)
 
         # dummy buttons
         # self.printButton = tk.Button(self, text="test", command=self.update_table)
         # self.printButton.grid(row=1, column=3, pady=10, padx=10)
         #
-        self.printButton_2 = tk.Button(self, text="test2", command=self.test_add_time_list)
-        self.printButton_2.grid(row=1, column=4)
+        # self.printButton_2 = tk.Button(self, text="test2", command=self.test_add_time_list)
+        # self.printButton_2.grid(row=1, column=4)
 
         # navigate to different window
         self.window_report = tk.Button(self, text="Report Page", command=lambda: controller.show_frame(ReportPage))
@@ -191,6 +191,11 @@ class MainPage(tk.Frame):
         # set 2 button back to False
         self.button_1 = False
         self.button_2 = False
+        # set resume and pause button to be disable when stop button is disabled
+        if self.stop_button["state"] == "disabled":
+            self.resume_button["state"] = "disabled"
+            self.pause_button["state"] = "disabled"
+
 
     def update_table(self):
         """
@@ -207,13 +212,14 @@ class MainPage(tk.Frame):
             listbox.insert(tk.END, f"{custom['button_2']}: " + str(i))
         listbox.pack()
 
-    def stop(self):
+    def pause(self):
         """
         Stop the timer but not resetting
         :return:
         """
         global count
         count = 1
+        self.switch_2()
 
     def resume(self):
         """
@@ -223,6 +229,7 @@ class MainPage(tk.Frame):
         global count
         count = 0
         self.timer()
+        self.switch_2()
 
     def timer(self):
         """
@@ -275,7 +282,7 @@ class MainPage(tk.Frame):
             # set the limit of time here
             if self.d == time_set:
                 # stop the time
-                self.stop()
+                self.pause()
                 # pop up the message
                 # msg = "Take a break!" time_set_label.get()
                 msg = f"Time's up!"
@@ -315,6 +322,9 @@ class MainPage(tk.Frame):
             self.stop_button["state"] = "active"
             self.stop_button["text"] = "Stop"
             self.window_custom["state"] = "disable"
+            self.pause_button["state"] = "normal"
+            #self.resume_button["state"] = "normal"
+
             # self.window_report["state"] = "disable"
         else:
             self.work_button["state"] = "normal"
@@ -328,10 +338,28 @@ class MainPage(tk.Frame):
             self.slack_button["state"] = "disabled"
             self.stop_button["state"] = "active"
             self.stop_button["text"] = "Stop"
+            self.pause_button["state"] = "active"
         else:
             self.slack_button["state"] = "normal"
             self.stop_button["state"] = "disabled"
             self.stop_button["text"] = "Stop"
+
+    def switch_2(self):
+        """
+        This is to help the user to not click other button while other function is activating
+        It makes most of the button not clickable once they are click
+        Stop button is clickable once the above condition is apply
+        :return:
+        """
+
+        # for resume button
+        if self.pause_button["state"] == "normal":
+            self.pause_button["state"] = "disable"
+            self.resume_button["state"] = "active"
+
+        if self.resume_button["state"] == "normal":
+            self.pause_button["state"] = "normal"
+            self.resume_button["state"] = "disable"
 
     def test_add_time_list(self):
         time_hold_work.append("00:30:00")
@@ -388,9 +416,13 @@ class Customization(tk.Frame):
         self.label = tk.Label(self, text="Choose the time that you want to be notify below:")
         self.label.grid(row=5, column=1)
 
-        self.slack_button = tk.Button(self, text=f"1 min 5s", width=10, height=2,
-                                     command=lambda: self.time_set_one_m_5_second())
+        self.slack_button = tk.Button(self, text=f"10 minutes", width=10, height=2,
+                                     command=lambda: self.time_set_10_minutes())
         self.slack_button.grid(row=6, column=0, pady=10, padx=10)
+
+        self.slack_button = tk.Button(self, text=f"15 minutes", width=10, height=2,
+                                     command=lambda: self.time_set_10_minutes())
+        self.slack_button.grid(row=7, column=0, pady=10, padx=10)
 
         self.slack_button = tk.Button(self, text=f"30 minutes", width=10, height=2,
                                      command=lambda: self.time_set_thirty_m())
@@ -427,16 +459,26 @@ class Customization(tk.Frame):
         self.controller.frames[MainPage].b2_correct_label()  # call correct_label function
         self.controller.show_frame(MainPage)  # show page one
 
-    def time_set_one_m_5_second(self):
+    def time_set_10_minutes(self):
         global time_set
         global time_set_label
-        time_set = "00:00:02"
+        time_set = "00:10:00"
         # display the correct label for time limit
         time_set_label.set(time_set)
 
         self.controller.SomeVar = time_set_label.get()  # save text from entry to some var
         # self.controller.frames[MainPage].time_correct_label()  # call correct_label function
         # self.controller.show_frame(MainPage)  # show page one
+
+    def time_set_15_minutes(self):
+        global time_set
+        global time_set_label
+        time_set = "00:15:00"
+        # display the correct label for time limit
+        time_set_label.set(time_set)
+
+        self.controller.SomeVar = time_set_label.get()  # save text from entry to some var
+
 
     def time_set_twenty_m(self):
         global time_set
