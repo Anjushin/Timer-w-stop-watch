@@ -421,7 +421,7 @@ class Customization(tk.Frame):
         self.slack_button.grid(row=6, column=0, pady=10, padx=10)
 
         self.slack_button = tk.Button(self, text=f"15 minutes", width=10, height=2,
-                                     command=lambda: self.time_set_10_minutes())
+                                     command=lambda: self.time_set_15_minutes())
         self.slack_button.grid(row=7, column=0, pady=10, padx=10)
 
         self.slack_button = tk.Button(self, text=f"30 minutes", width=10, height=2,
